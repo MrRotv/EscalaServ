@@ -24,7 +24,7 @@ namespace EscalaServ.API.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] AddMilitaryModel addMilitary)
         {
-            if (addMilitary.NomeDeGuerra.Length > 20)
+            if (addMilitary.Graduation.Length > 20)
             {
                 return BadRequest();
             }

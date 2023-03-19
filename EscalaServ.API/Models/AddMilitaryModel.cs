@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
         public string Nip { get; set; }
-        public string NomeDeGuerra { get; set; }
-        public string Graduacao { get; set; }
+        public string WarName { get; set; }
+        public string Graduation { get; set; }
     }
 }

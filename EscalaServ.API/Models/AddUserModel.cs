@@ -2,5 +2,7 @@
 {
     public class AddUserModel
     {
+        public string Nip { get; private set; }
+        public string Password { get; private set; }
     }
 }
