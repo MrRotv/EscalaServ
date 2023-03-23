@@ -14,19 +14,20 @@ namespace EscalaServ.API.Controllers
             _userInterface = userInterface;
         }
 
-        //api/user/"id"
-        [HttpGet("{id}")]
-        public IActionResult GetById(int id)
-        {
-            var user = _userInterface.GetById(id);
-            return Ok(user);
-        }
-
         //api/user/query="parâmetro de busca"
         [HttpGet]
         public IActionResult Get(string query)
         {
             var user = _userInterface.GetAll(query);
+
+            return Ok(user);
+        }
+
+        //api/user/"id"
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id)
+        {
+            var user = _userInterface.GetById(id);
             return Ok(user);
         }
 
