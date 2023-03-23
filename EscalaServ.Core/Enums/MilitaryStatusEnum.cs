@@ -6,7 +6,14 @@ using System.Threading.Tasks;
 
 namespace EscalaServ.Core.Enums
 {
-    internal class MilitaryStatusEnum
+    public enum MilitaryStatusEnum
     {
+        Service = 0,
+        Vaccation = 1,
+        Licenced = 2,
+        Travelling = 3,
+        Detached = 4,
+        Respite = 5
+        
     }
 }
