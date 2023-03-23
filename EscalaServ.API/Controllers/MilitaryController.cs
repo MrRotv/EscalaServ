@@ -1,11 +1,17 @@
 ﻿using EscalaServ.API.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace EscalaServ.API.Controllers
 {
     [Route("api/militaries")]
     public class MilitaryController : ControllerBase
     {
+        private readonly ClosingTimeOption _option;
+        public MilitaryController(IOptions<ClosingTimeOption> option)
+        {
+            _option = option.Value;
+        }
         //api/militaries?query="parâmetro de busca"
         [HttpGet]
         public IActionResult Get(string query)
