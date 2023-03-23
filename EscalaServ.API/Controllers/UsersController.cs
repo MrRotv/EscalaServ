@@ -1,4 +1,6 @@
 ﻿using EscalaServ.API.Models;
+using EscalaServ.Application.InputModels;
+using EscalaServ.Application.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EscalaServ.API.Controllers
@@ -6,23 +8,34 @@ namespace EscalaServ.API.Controllers
     [Route("api/users")]
     public class UsersController : ControllerBase
     {
+        private readonly IUserInterface _userInterface;
+        public UsersController(IUserInterface userInterface)
+        {
+            _userInterface = userInterface;
+        }
+
         //api/user/"id"
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
-            return Ok();
+            var user = _userInterface.GetById(id);
+            return Ok(user);
         }
+
+        //api/user/query="parâmetro de busca"
+        [HttpGet]
+        public IActionResult Get(string query)
+        {
+            var user = _userInterface.GetAll(query);
+            return Ok(user);
+        }
+
         //api/users
         [HttpPost]
-        public IActionResult Post([FromBody] AddUserModel addUser)
+        public IActionResult Post([FromBody] CreateUserInputModel inputModel)
         {
-            return CreatedAtAction(nameof(GetById), new { nip = 1 }, addUser);
-        }
-        //api/users/"id"/trades
-        [HttpPost("{id}/trades")]
-        public IActionResult Post([FromBody] ServiceTrade serviceTrade)
-        {
-            return NoContent();
+            var id = _userInterface.Create(inputModel);
+            return CreatedAtAction(nameof(GetById), new { id }, inputModel);
         }
 
         //api/users/"id"/login

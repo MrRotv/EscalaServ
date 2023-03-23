@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace EscalaServ.Core.Entities
 {
-    public class TradesRequests : BaseEntity
+    public class TradeRequest : BaseEntity
     {
-        public TradesRequests(int userId, DateTime outService, DateTime inService, int militaryId, string motive)
+        public TradeRequest(int userId, DateOnly outService, DateOnly inService, int militaryId, string motive)
         {
             UserId = userId;
             OutService = outService;
@@ -20,8 +20,8 @@ namespace EscalaServ.Core.Entities
         }
 
         public int UserId { get; private set; }
-        public DateTime OutService { get; private set; }
-        public DateTime InService { get; private set; }
+        public DateOnly OutService { get; private set; }
+        public DateOnly InService { get; private set; }
         public int MilitaryId { get; private set; }
         public string Motive { get; private set; }        
         public DateTime CreatedAt { get; private set; }

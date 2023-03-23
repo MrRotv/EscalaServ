@@ -10,4 +10,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\EscalaServ.Application\EscalaServ.Application.csproj" />
+    <ProjectReference Include="..\EscalaServ.Core\EscalaServ.Core.csproj" />
+    <ProjectReference Include="..\EscalaServ.Infrastructure\EscalaServ.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

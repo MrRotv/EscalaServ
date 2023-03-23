@@ -13,7 +13,8 @@ namespace EscalaServ.Core.Enums
         Licenced = 2,
         Travelling = 3,
         Detached = 4,
-        Respite = 5
+        Respite = 5,
+        Off = 6
         
     }
 }

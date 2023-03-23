@@ -1,9 +1,17 @@
 using EscalaServ.API.Models;
+using EscalaServ.Application.Services.Implemetations;
+using EscalaServ.Application.Services.Interfaces;
+using EscalaServ.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.Configure<ClosingTimeOption>(builder.Configuration.GetSection("ClosingTime"));
+
+builder.Services.AddSingleton<EscalaServDbContext>();
+
+builder.Services.AddScoped<IMilitaryService, MilitaryService>();
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

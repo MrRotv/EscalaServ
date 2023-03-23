@@ -20,7 +20,7 @@ namespace EscalaServ.Core.Entities
             CreatedAt= DateTime.Now;
             Status = MilitaryStatusEnum.Respite;
 
-            Requests = new List<TradesRequests>();
+            Requests = new List<TradeRequest>();
         }
 
         public string Nip { get; private set; }
@@ -30,6 +30,23 @@ namespace EscalaServ.Core.Entities
         public string Rank { get; private set; }
         public DateTime CreatedAt { get; private set; }
         public MilitaryStatusEnum Status { get; private set; }
-        public List<TradesRequests> Requests { get; private set; }
+        public List<TradeRequest> Requests { get; private set; }
+
+        public void Delete()
+        {
+            if(Status != MilitaryStatusEnum.Off)
+            {
+                Status = MilitaryStatusEnum.Off;
+            }        
+        }
+        public void Update(string nip, string warName, string graduation, string division, string rank)
+        {
+            Nip = nip;
+            WarName = warName;
+            Graduation = graduation;
+            Division = division;
+            Rank = rank;
+        }
+
     }
 }

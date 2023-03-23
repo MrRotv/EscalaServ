@@ -1,4 +1,7 @@
 ﻿using EscalaServ.API.Models;
+using EscalaServ.Application.InputModels;
+using EscalaServ.Application.Services.Implemetations;
+using EscalaServ.Application.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -7,30 +10,38 @@ namespace EscalaServ.API.Controllers
     [Route("api/militaries")]
     public class MilitaryController : ControllerBase
     {
-        private readonly ClosingTimeOption _option;
-        public MilitaryController(IOptions<ClosingTimeOption> option)
+        private readonly IMilitaryService _militaryService;
+        public MilitaryController(IMilitaryService militaryService)
         {
-            _option = option.Value;
+            _militaryService= militaryService;
         }
         //api/militaries?query="parâmetro de busca"
         [HttpGet]
         public IActionResult Get(string query)
         {
-            return Ok();
+            var military = _militaryService.GetAll(query);
+
+            return Ok(military);
         }
 
         //api/militaries/"id"
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
-            return Ok();
+            var military = _militaryService.GetById(id);
+            
+            if (military == null)
+            {
+                return NotFound();
+            }
+            return Ok(military);
         }
 
         //api/militaries/
         [HttpPost]
-        public IActionResult Post([FromBody] AddMilitaryModel addMilitary)
+        public IActionResult Post([FromBody] AddMilitaryInputModel inputModel)
         {
-            if (addMilitary.Graduation.Length > 20)
+            if (inputModel.Graduation.Length > 20)
             {
                 return BadRequest();
             }
@@ -41,17 +52,29 @@ namespace EscalaServ.API.Controllers
 
             //CreatedAtAction, equivalente ao 201 (Created)
 
-            return CreatedAtAction(nameof(GetById), new { id = addMilitary.Id }, addMilitary);
+            var id = _militaryService.Create(inputModel);
+
+            return CreatedAtAction(nameof(GetById), new { id = id }, inputModel);
+        }
+
+        //api/militaries/"id"/trades
+        [HttpPost("{id}/trades")]
+        public IActionResult Post([FromBody] TradeRequestInputModel inputModel)
+        {
+            _militaryService.CreateRequest(inputModel);
+
+            return NoContent();
         }
 
         //api/militaries/"id"
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] UpdateMilitaryModel updateMilitary)
+        public IActionResult Put(int id, [FromBody] UpdateMilitaryInputModel inputModel)
         {
-            if (updateMilitary.Nip.Length > 8)
+            if (inputModel.Nip.Length > 8)
             {
                 return BadRequest();
             }
+            _militaryService.Update(inputModel);
 
             return NoContent();
         }
@@ -60,6 +83,7 @@ namespace EscalaServ.API.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
+            _militaryService.Delete(id);
             return NoContent();
         }
     }
