@@ -2,13 +2,15 @@ using EscalaServ.API.Models;
 using EscalaServ.Application.Services.Implemetations;
 using EscalaServ.Application.Services.Interfaces;
 using EscalaServ.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.Configure<ClosingTimeOption>(builder.Configuration.GetSection("ClosingTime"));
 
-builder.Services.AddSingleton<EscalaServDbContext>();
+builder.Services.AddDbContext<EscalaServDbContext>(
+    options => options.UseSqlServer(builder.Configuration.GetConnectionString("EscalaServCs")));
 
 builder.Services.AddScoped<IMilitaryService, MilitaryService>();
 builder.Services.AddScoped<IUserService, UserService>();

@@ -19,6 +19,7 @@ namespace EscalaServ.Core.Entities
             CreatedAt= DateTime.Now;
         }
 
+        public User MilitaryUser { get; private set; }
         public int UserId { get; private set; }
         public DateOnly OutService { get; private set; }
         public DateOnly InService { get; private set; }

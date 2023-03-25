@@ -26,5 +26,7 @@ namespace EscalaServ.Core.Entities
         public string Password { get; private set; }
         public DateTime CreatedAt { get; private set; }
         public bool Active { get; private set; }
+
+        public List<TradeRequest> TradesRequests { get; private set; }
     }
 }
