@@ -23,8 +23,6 @@ namespace EscalaServ.Application.Services.Implemetations
         {
             var military = new Military(inputModel.Nip, inputModel.WarName, inputModel.Graduation, inputModel.Division, inputModel.Rank);
             _dbContext.Military.Add(military);
-            int id = military.Id;
-            id++;
 
             return military.Id;
         }
