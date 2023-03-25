@@ -1,6 +1,7 @@
 ﻿using EscalaServ.API.Models;
 using EscalaServ.Application.InputModels;
 using EscalaServ.Application.Services.Interfaces;
+using EscalaServ.Core.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EscalaServ.API.Controllers
@@ -8,8 +9,8 @@ namespace EscalaServ.API.Controllers
     [Route("api/users")]
     public class UsersController : ControllerBase
     {
-        private readonly IUserInterface _userInterface;
-        public UsersController(IUserInterface userInterface)
+        private readonly IUserService _userInterface;
+        public UsersController(IUserService userInterface)
         {
             _userInterface = userInterface;
         }
@@ -27,7 +28,12 @@ namespace EscalaServ.API.Controllers
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
+
             var user = _userInterface.GetById(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
             return Ok(user);
         }
 

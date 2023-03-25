@@ -8,8 +8,9 @@ namespace EscalaServ.Application.ViewModels
 {
     public class MilitaryDetailsViewModel
     {
-        public MilitaryDetailsViewModel(string nip, string warName, string graduation, string division, string rank)
+        public MilitaryDetailsViewModel(int id, string nip, string warName, string graduation, string division, string rank)
         {
+            Id = id;
             Nip = nip;
             WarName = warName;
             Graduation = graduation;
@@ -17,6 +18,7 @@ namespace EscalaServ.Application.ViewModels
             Rank = rank;
         }
 
+        public int Id { get; private set; }
         public string Nip { get; private set; }
         public string WarName { get; private set; }
         public string Graduation { get; private set; }

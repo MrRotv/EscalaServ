@@ -54,9 +54,12 @@ namespace EscalaServ.Application.Services.Implemetations
 
         public MilitaryDetailsViewModel GetById(int id)
         {
-            if (id == null) return null;
             var military = _dbContext.Military.SingleOrDefault(x => x.Id == id);
+
+            if (military == null) return null;
+            
             var militaryDetailsViewModel = new MilitaryDetailsViewModel(
+                military.Id,
                 military.Nip,
                 military.WarName,
                 military.Graduation,

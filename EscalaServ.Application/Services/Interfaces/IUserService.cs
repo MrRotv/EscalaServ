@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EscalaServ.Application.Services.Interfaces
 {
-    public interface IUserInterface
+    public interface IUserService
     {
         UserDetailsViewModel GetById(int id);
         public List<UserViewModel> GetAll(string query);

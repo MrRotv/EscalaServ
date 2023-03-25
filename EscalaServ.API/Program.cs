@@ -11,7 +11,7 @@ builder.Services.Configure<ClosingTimeOption>(builder.Configuration.GetSection("
 builder.Services.AddSingleton<EscalaServDbContext>();
 
 builder.Services.AddScoped<IMilitaryService, MilitaryService>();
-builder.Services.AddScoped<IUserInterface, UserService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

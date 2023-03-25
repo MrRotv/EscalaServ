@@ -8,9 +8,9 @@ namespace EscalaServ.Application.InputModels
 {
     public class AddMilitaryInputModel
     {
-        public AddMilitaryInputModel(int id, string nip, string warName, string graduation, string division, string rank)
+        public AddMilitaryInputModel(string nip, string warName, string graduation, string division, string rank)
         {
-            Id = id;
+           
             Nip = nip;
             WarName = warName;
             Graduation = graduation;
@@ -19,7 +19,7 @@ namespace EscalaServ.Application.InputModels
 
         }
 
-        public int Id { get; set; }
+        
         public string Nip { get; set; }
         public string WarName { get; set; }
         public string Graduation { get; set; }

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace EscalaServ.Application.Services.Implemetations
 {
-    public class UserService : IUserInterface
+    public class UserService : IUserService
     {
         private readonly EscalaServDbContext _dbContext;
         public UserService(EscalaServDbContext dbContext)
@@ -39,6 +39,9 @@ namespace EscalaServ.Application.Services.Implemetations
         public UserDetailsViewModel GetById(int id)
         {
             var user = _dbContext.User.SingleOrDefault(u => u.Id == id);
+
+            if (user == null) return null;
+                        
             var userDetailsViewModel = new UserDetailsViewModel(
                 user.Nip,
                 user.WarName,
