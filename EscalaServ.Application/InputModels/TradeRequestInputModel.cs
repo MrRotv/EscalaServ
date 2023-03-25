@@ -8,7 +8,7 @@ namespace EscalaServ.Application.InputModels
 {
     public class TradeRequestInputModel
     {
-        public TradeRequestInputModel(int userId, DateOnly outService, DateOnly inService, int militaryId, string motive)
+        public TradeRequestInputModel(int userId, string outService, string inService, int militaryId, string motive)
         {
             UserId = userId;
             OutService = outService;
@@ -18,8 +18,8 @@ namespace EscalaServ.Application.InputModels
         }
 
         public int UserId { get; private set; }
-        public DateOnly OutService { get; private set; }
-        public DateOnly InService { get; private set; }
+        public string OutService { get; private set; }
+        public string InService { get; private set; }
         public int MilitaryId { get; private set; }
         public string Motive { get; private set; }
     }

@@ -14,7 +14,7 @@ namespace EscalaServ.Application.Services.Interfaces
         MilitaryDetailsViewModel GetById(int id);
         int Create(AddMilitaryInputModel inputModel);
         int CreateRequest(TradeRequestInputModel inputModel);
-        void Update(UpdateMilitaryInputModel inputModel);
+        void Update(UpdateMilitaryInputModel inputModel, int id);
         void Delete(int id);
     }
 }

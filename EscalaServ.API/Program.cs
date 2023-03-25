@@ -9,8 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.Configure<ClosingTimeOption>(builder.Configuration.GetSection("ClosingTime"));
 
-builder.Services.AddDbContext<EscalaServDbContext>(
-    options => options.UseSqlServer(builder.Configuration.GetConnectionString("EscalaServCs")));
+var connectionString = (builder.Configuration.GetConnectionString("EscalaServCS"));
+builder.Services.AddDbContext<EscalaServDbContext>(options => options.UseSqlServer(connectionString));
 
 builder.Services.AddScoped<IMilitaryService, MilitaryService>();
 builder.Services.AddScoped<IUserService, UserService>();

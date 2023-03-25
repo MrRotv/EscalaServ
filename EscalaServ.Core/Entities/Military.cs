@@ -28,8 +28,6 @@ namespace EscalaServ.Core.Entities
         public string Graduation { get; private set; }
         public string Division { get; private set; }
         public string Rank { get; private set; }
-        public User MilitaryUser { get; private set; }
-        public int UserId { get; private set; }
         public DateTime CreatedAt { get; private set; }
         public MilitaryStatusEnum Status { get; private set; }
         public List<TradeRequest> TradesRequests { get; private set; }

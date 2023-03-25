@@ -23,6 +23,7 @@ namespace EscalaServ.Application.Services.Implemetations
         {
             var user = new User(inputModel.Nip, inputModel.WarName, inputModel.Graduation, inputModel.Password);
             _dbContext.User.Add(user);
+            _dbContext.SaveChanges();
             return user.Id;
         }
 

@@ -74,7 +74,7 @@ namespace EscalaServ.API.Controllers
             {
                 return BadRequest();
             }
-            _militaryService.Update(inputModel);
+            _militaryService.Update(inputModel, id);
 
             return NoContent();
         }

@@ -3,6 +3,7 @@ using EscalaServ.Application.Services.Interfaces;
 using EscalaServ.Application.ViewModels;
 using EscalaServ.Core.Entities;
 using EscalaServ.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,30 +24,16 @@ namespace EscalaServ.Application.Services.Implemetations
         {
             var military = new Military(inputModel.Nip, inputModel.WarName, inputModel.Graduation, inputModel.Division, inputModel.Rank);
             _dbContext.Military.Add(military);
+            _dbContext.SaveChanges();
 
             return military.Id;
-        }
-
-        public int CreateRequest(TradeRequestInputModel inputModel)
-        {
-            var request = new TradeRequest(inputModel.UserId, inputModel.OutService,inputModel.InService, inputModel.MilitaryId, inputModel.Motive);
-            _dbContext.TradeRequest.Add(request);
-
-            return request.Id;
-        }
-
-        public void Delete(int id)
-        {
-            var military = _dbContext.Military.SingleOrDefault(x => x.Id == id);
-
-            military.Delete();
         }
 
         public List<MilitaryViewModel> GetAll(string query)
         {
             var military = _dbContext.Military;
             var militaryViewModel = military
-                .Select(p => new MilitaryViewModel(p.Nip,p.WarName))
+                .Select(p => new MilitaryViewModel(p.Nip, p.WarName))
                 .ToList();
 
             return militaryViewModel;
@@ -57,7 +44,7 @@ namespace EscalaServ.Application.Services.Implemetations
             var military = _dbContext.Military.SingleOrDefault(x => x.Id == id);
 
             if (military == null) return null;
-            
+
             var militaryDetailsViewModel = new MilitaryDetailsViewModel(
                 military.Id,
                 military.Nip,
@@ -69,11 +56,33 @@ namespace EscalaServ.Application.Services.Implemetations
             return militaryDetailsViewModel;
         }
 
-        public void Update(UpdateMilitaryInputModel inputModel)
+        public int CreateRequest(TradeRequestInputModel inputModel)
         {
-            var update = _dbContext.Military.SingleOrDefault(x => x.Id == inputModel.Id);
+            var request = new TradeRequest(inputModel.UserId, inputModel.OutService,inputModel.InService, inputModel.MilitaryId, inputModel.Motive);
+            _dbContext.TradeRequest.Add(request);
+            _dbContext.SaveChanges();
+
+            return request.Id;
+        }
+
+        public void Delete(int id)
+        {
+            var military = _dbContext.Military.SingleOrDefault(x => x.Id == id);
+            
+            if (military != null)
+            {
+                military.Delete();
+                _dbContext.SaveChanges();
+            }
+                           
+        }
+
+        public void Update(UpdateMilitaryInputModel inputModel, int id)
+        {
+            var update = _dbContext.Military.SingleOrDefault(x => x.Id == id);
             
             update.Update(inputModel.Nip, inputModel.WarName, inputModel.Graduation, inputModel.Division, inputModel.Rank );
+            _dbContext.SaveChanges();
         }
     }
 }

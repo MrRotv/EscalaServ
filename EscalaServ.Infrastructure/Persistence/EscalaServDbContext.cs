@@ -36,6 +36,7 @@ namespace EscalaServ.Infrastructure.Persistence
                .HasForeignKey(p => p.MilitaryId)
                .OnDelete(DeleteBehavior.Restrict);
 
+
             modelBuilder.Entity<TradeRequest>()
                 .HasKey(p => p.Id);
 
@@ -43,7 +44,6 @@ namespace EscalaServ.Infrastructure.Persistence
                 .HasOne(p => p.MilitaryUser)
                 .WithMany(p => p.TradesRequests)
                 .HasForeignKey(p => p.UserId)
-                .HasForeignKey(p => p.MilitaryId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }
