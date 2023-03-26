@@ -1,7 +1,15 @@
-﻿using EscalaServ.API.Models;
+﻿using EscalaServ.Application.Commands.CreateMilitary;
+using EscalaServ.Application.Commands.CreateTrade;
+using EscalaServ.Application.Commands.DeleteMilitary;
+using EscalaServ.Application.Commands.UpdateMilitary;
 using EscalaServ.Application.InputModels;
+using EscalaServ.Application.Queries.GetAllMilitary;
+using EscalaServ.Application.Queries.GetMilitaryById;
+using EscalaServ.Application.Queries.GetTrades;
 using EscalaServ.Application.Services.Implemetations;
 using EscalaServ.Application.Services.Interfaces;
+using EscalaServ.Core.Entities;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -11,24 +19,29 @@ namespace EscalaServ.API.Controllers
     public class MilitaryController : ControllerBase
     {
         private readonly IMilitaryService _militaryService;
-        public MilitaryController(IMilitaryService militaryService)
+        private readonly IMediator _mediator;
+        public MilitaryController(IMilitaryService militaryService, IMediator mediator)
         {
-            _militaryService= militaryService;
+            _militaryService = militaryService;
+            _mediator = mediator;
         }
         //api/militaries?query="parâmetro de busca"
         [HttpGet]
-        public IActionResult Get(string query)
+        public async Task<IActionResult> Get(string query)
         {
-            var military = _militaryService.GetAll(query);
+            var command = new GetAllMilitaryQuery(query);
+            var military = await _mediator.Send(command);
 
             return Ok(military);
         }
 
         //api/militaries/"id"
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            var military = _militaryService.GetById(id);
+            var command = new GetMilitaryByIdQuery(id);
+
+            var military = await _mediator.Send(command);
             
             if (military == null)
             {
@@ -37,11 +50,27 @@ namespace EscalaServ.API.Controllers
             return Ok(military);
         }
 
+        [HttpGet("{id}/trades")]
+        public async Task<IActionResult> GetAll(int id)
+        {
+            var command = new GetAllTradesByUserIdQuery(id);
+
+            var trade = await _mediator.Send(command);
+
+            if (trade == null)
+            {
+                return NotFound();
+            }
+            return Ok(trade);
+
+
+        }
+
         //api/militaries/
         [HttpPost]
-        public IActionResult Post([FromBody] AddMilitaryInputModel inputModel)
+        public async Task <IActionResult> Post([FromBody] CreateMilitaryCommand command)
         {
-            if (inputModel.Graduation.Length > 20)
+            if (command.Graduation.Length > 20)
             {
                 return BadRequest();
             }
@@ -52,38 +81,44 @@ namespace EscalaServ.API.Controllers
 
             //CreatedAtAction, equivalente ao 201 (Created)
 
-            var id = _militaryService.Create(inputModel);
+            var id = await _mediator.Send(command);
 
-            return CreatedAtAction(nameof(GetById), new { id = id }, inputModel);
+            return CreatedAtAction(nameof(GetById), new { id = id }, command);
         }
+
+        //public IActionResult GetById(int id, TradeQuestQuerie querie)
+        //{
+
+        //}
 
         //api/militaries/"id"/trades
         [HttpPost("{id}/trades")]
-        public IActionResult Post([FromBody] TradeRequestInputModel inputModel)
+        public async Task<IActionResult> Post([FromBody] CreateTradeCommand command)
         {
-            _militaryService.CreateRequest(inputModel);
+            await _mediator.Send(command);
 
             return NoContent();
         }
 
         //api/militaries/"id"
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] UpdateMilitaryInputModel inputModel)
+        public async Task<IActionResult> Put(int id, [FromBody] UpdateMilitaryCommand command)
         {
-            if (inputModel.Nip.Length > 8)
+            if (command.Nip.Length > 8)
             {
                 return BadRequest();
             }
-            _militaryService.Update(inputModel, id);
+            await _mediator.Send(command);
 
             return NoContent();
         }
 
         //api/militaries/"id"
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            _militaryService.Delete(id);
+            var command = new DeleteMilitaryCommand(id);
+            await _mediator.Send(command);
             return NoContent();
         }
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EscalaServ.Core.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,6 +28,13 @@ namespace EscalaServ.Core.Entities
         public DateTime CreatedAt { get; private set; }
         public bool Active { get; private set; }
 
-        public List<TradeRequest> TradesRequests { get; private set; }
+        public List<TradeRequest> TradesRequests { get; private set; }      
+
+        public void Update(string nip, string warName, string graduation)
+        {
+            Nip = nip;
+            WarName = warName;
+            Graduation = graduation;         
+        }
     }
 }
