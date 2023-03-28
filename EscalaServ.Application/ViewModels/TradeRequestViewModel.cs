@@ -8,13 +8,17 @@ namespace EscalaServ.Application.ViewModels
 {
     public class TradeRequestViewModel
     {
-        public TradeRequestViewModel(int userId, string motive)
+        public TradeRequestViewModel(int userId, string outService, string inService, string motive)
         {
             UserId = userId;
+            OutService = outService;
+            InService = inService;
             Motive = motive;
         }
 
         public int UserId { get; private set; }
+        public string OutService { get; private set; }
+        public string InService { get; private set; }
         public string Motive { get; private set; }
     }
 }

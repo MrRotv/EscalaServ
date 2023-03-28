@@ -20,17 +20,17 @@ namespace EscalaServ.Application.Queries.GetTrades
         }
         public async Task<List<TradeRequestViewModel>> Handle(GetAllTradesByUserIdQuery request, CancellationToken cancellationToken)
         {
-            var trade = await _dbContext.TradeRequest.SingleOrDefaultAsync(p => p.UserId == request.Id);
-
-            if (trade == null) return null;
-
-            var tradeView = _dbContext.TradeRequest;
-
-            var tradeViewModel = await tradeView
-                .Select(u => new TradeRequestViewModel(u.UserId, u.Motive))
+            var tradeViewModel = await _dbContext.TradeRequest
+                .Where(p => p.UserId == request.Id)
+                .Select(p => new TradeRequestViewModel(p.UserId, p.InService, p.OutService, p.Motive))
                 .ToListAsync();
 
+            var CountTrade = tradeViewModel.Count;
+
+            if (CountTrade == 0) return null;
+            
             return tradeViewModel;
+            
         }
     }
 }

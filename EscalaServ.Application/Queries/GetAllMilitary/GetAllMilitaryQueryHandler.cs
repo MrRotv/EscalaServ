@@ -21,7 +21,7 @@ namespace EscalaServ.Application.Queries.GetAllMilitary
         {
             var military = _dbContext.Military;
             var militaryViewModel = await military
-                .Select(p => new MilitaryViewModel(p.Nip, p.WarName))
+                .Select(p =>  new MilitaryViewModel(p.Nip, p.WarName))
                 .ToListAsync();
 
             return militaryViewModel;

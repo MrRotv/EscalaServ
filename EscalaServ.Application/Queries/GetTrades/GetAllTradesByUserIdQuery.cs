@@ -11,10 +11,12 @@ namespace EscalaServ.Application.Queries.GetTrades
 {
     public class GetAllTradesByUserIdQuery : IRequest<List<TradeRequestViewModel>>
     {
-        public GetAllTradesByUserIdQuery(int id)
+        public GetAllTradesByUserIdQuery(int id, string query)
         {
             Id = id;
+            Query = query;
         }
         public int Id { get; set; }
+        public string Query { get; set; }
     }
 }

@@ -9,10 +9,10 @@ namespace EscalaServ.Application.Commands.CreateTrade
 {
     public class CreateTradeCommand : IRequest<int>
     {
-        public int UserId { get; private set; }
-        public string OutService { get; private set; }
-        public string InService { get; private set; }
-        public int MilitaryId { get; private set; }
-        public string Motive { get; private set; }
+        public int UserId { get;  set; }
+        public string OutService { get;  set; }
+        public string InService { get;  set; }
+        public int MilitaryId { get;  set; }
+        public string Motive { get;  set; }
     }
 }

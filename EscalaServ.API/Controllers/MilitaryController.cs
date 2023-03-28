@@ -51,9 +51,9 @@ namespace EscalaServ.API.Controllers
         }
 
         [HttpGet("{id}/trades")]
-        public async Task<IActionResult> GetAll(int id)
+        public async Task<IActionResult> GetAll(int id, string query)
         {
-            var command = new GetAllTradesByUserIdQuery(id);
+            var command = new GetAllTradesByUserIdQuery(id,query);
 
             var trade = await _mediator.Send(command);
 
@@ -85,11 +85,6 @@ namespace EscalaServ.API.Controllers
 
             return CreatedAtAction(nameof(GetById), new { id = id }, command);
         }
-
-        //public IActionResult GetById(int id, TradeQuestQuerie querie)
-        //{
-
-        //}
 
         //api/militaries/"id"/trades
         [HttpPost("{id}/trades")]

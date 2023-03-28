@@ -9,9 +9,9 @@ namespace EscalaServ.Application.Commands.CreateUser
 {
     public class CreateUserCommand : IRequest<int>
     {
-        public string Nip { get; private set; }
-        public string WarName { get; private set; }
-        public string Graduation { get; private set; }
-        public string Password { get; private set; }
+        public string Nip { get;  set; }
+        public string WarName { get;  set; }
+        public string Graduation { get;  set; }
+        public string Password { get;  set; }
     }
 }
