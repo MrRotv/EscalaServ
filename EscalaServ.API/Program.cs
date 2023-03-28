@@ -1,8 +1,24 @@
+using EscalaServ.Application.Commands.CreateMilitary;
+using EscalaServ.Application.Services.Implemetations;
+using EscalaServ.Application.Services.Interfaces;
+using EscalaServ.Infrastructure.Persistence;
+using MediatR;
+using Microsoft.AspNetCore.Components.Routing;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+var connectionString = (builder.Configuration.GetConnectionString("EscalaServCS"));
+builder.Services.AddDbContext<EscalaServDbContext>(options => options.UseSqlServer(connectionString));
+
+builder.Services.AddScoped<IMilitaryService, MilitaryService>();
+builder.Services.AddScoped<IUserService, UserService>();
+
 builder.Services.AddControllers();
+builder.Services.AddMediatR(typeof(CreateMilitaryCommand));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

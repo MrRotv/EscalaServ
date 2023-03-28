@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EscalaServ.API", "EscalaServ.API\EscalaServ.API.csproj", "{613F2DA1-AE8D-402D-BF59-9F007BA190CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EscalaServ.API", "EscalaServ.API\EscalaServ.API.csproj", "{613F2DA1-AE8D-402D-BF59-9F007BA190CC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EscalaServ.Core", "EscalaServ.Core\EscalaServ.Core.csproj", "{CD4FBA97-53A4-498E-AE8B-43F3D9583D5F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EscalaServ.Infrastructure", "EscalaServ.Infrastructure\EscalaServ.Infrastructure.csproj", "{5E4C78FB-86C0-41F3-BE82-7A74E3C175F6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EscalaServ.Application", "EscalaServ.Application\EscalaServ.Application.csproj", "{AB214C6F-8693-4E83-BB6D-CFEDD9502D61}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +21,18 @@ Global
 		{613F2DA1-AE8D-402D-BF59-9F007BA190CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{613F2DA1-AE8D-402D-BF59-9F007BA190CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{613F2DA1-AE8D-402D-BF59-9F007BA190CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD4FBA97-53A4-498E-AE8B-43F3D9583D5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD4FBA97-53A4-498E-AE8B-43F3D9583D5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD4FBA97-53A4-498E-AE8B-43F3D9583D5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD4FBA97-53A4-498E-AE8B-43F3D9583D5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E4C78FB-86C0-41F3-BE82-7A74E3C175F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E4C78FB-86C0-41F3-BE82-7A74E3C175F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E4C78FB-86C0-41F3-BE82-7A74E3C175F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E4C78FB-86C0-41F3-BE82-7A74E3C175F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB214C6F-8693-4E83-BB6D-CFEDD9502D61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB214C6F-8693-4E83-BB6D-CFEDD9502D61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB214C6F-8693-4E83-BB6D-CFEDD9502D61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB214C6F-8693-4E83-BB6D-CFEDD9502D61}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
