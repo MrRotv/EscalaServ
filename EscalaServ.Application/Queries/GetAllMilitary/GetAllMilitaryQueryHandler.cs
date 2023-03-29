@@ -1,5 +1,7 @@
 ﻿using EscalaServ.Application.ViewModels;
+using EscalaServ.Core.Repositories;
 using EscalaServ.Infrastructure.Persistence;
+using EscalaServ.Infrastructure.Persistence.Repositories;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -12,17 +14,18 @@ namespace EscalaServ.Application.Queries.GetAllMilitary
 {
     public class GetAllMilitaryQueryHandler : IRequestHandler<GetAllMilitaryQuery, List<MilitaryViewModel>>
     {
-        private readonly EscalaServDbContext _dbContext;
-        public GetAllMilitaryQueryHandler(EscalaServDbContext dbContext)
+        private readonly IMilitaryRepository _militaryRepository;
+        public GetAllMilitaryQueryHandler(IMilitaryRepository militaryRepository)
         {
-            _dbContext = dbContext;
+            _militaryRepository = militaryRepository;
         }
         public async Task<List<MilitaryViewModel>> Handle(GetAllMilitaryQuery request, CancellationToken cancellationToken)
         {
-            var military = _dbContext.Military;
-            var militaryViewModel = await military
+            var military = await _militaryRepository.GetAllAsync();
+
+            var militaryViewModel = military
                 .Select(p =>  new MilitaryViewModel(p.Nip, p.WarName))
-                .ToListAsync();
+                .ToList();
 
             return militaryViewModel;
         }

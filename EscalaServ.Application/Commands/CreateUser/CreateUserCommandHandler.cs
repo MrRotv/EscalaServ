@@ -1,4 +1,5 @@
 ﻿using EscalaServ.Core.Entities;
+using EscalaServ.Core.Repositories;
 using EscalaServ.Infrastructure.Persistence;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -12,17 +13,18 @@ namespace EscalaServ.Application.Commands.CreateUser
 {
     public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, int>
     {
-        private readonly EscalaServDbContext _dbContext;
+        private readonly IUserRepository _userRepository;
 
-        public CreateUserCommandHandler(EscalaServDbContext dbContext) 
+        public CreateUserCommandHandler(IUserRepository userRepository) 
         { 
-            _dbContext = dbContext; 
+            _userRepository = userRepository;
         }
         public async Task<int> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
             var user = new User(request.Nip, request.WarName, request.Graduation, request.Password);
-            await _dbContext.User.AddAsync(user);
-            await _dbContext.SaveChangesAsync();
+
+            await _userRepository.AddUserAsync(user);
+           
             return user.Id;
         }
     }

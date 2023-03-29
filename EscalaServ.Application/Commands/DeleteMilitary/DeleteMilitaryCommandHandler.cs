@@ -1,4 +1,5 @@
-﻿using EscalaServ.Infrastructure.Persistence;
+﻿using EscalaServ.Core.Repositories;
+using EscalaServ.Infrastructure.Persistence;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -11,20 +12,20 @@ namespace EscalaServ.Application.Commands.DeleteMilitary
 {
     public class DeleteMilitaryCommandHandler : IRequestHandler<DeleteMilitaryCommand, Unit>
     {
-        private readonly EscalaServDbContext _dbContext;
+        private readonly IMilitaryRepository _militaryRepository;
 
-        public DeleteMilitaryCommandHandler(EscalaServDbContext dbContext)
+        public DeleteMilitaryCommandHandler(IMilitaryRepository militaryRepository)
         {
-            _dbContext = dbContext;
+            _militaryRepository = militaryRepository;
         }
         public async Task<Unit> Handle(DeleteMilitaryCommand request, CancellationToken cancellationToken)
         {
-            var military = await _dbContext.Military.SingleOrDefaultAsync(x => x.Id == request.Id);
+            var military = await _militaryRepository.GetByIdAsync(request.Id);
 
             if (military != null)
             {
                 military.Delete();
-                await _dbContext.SaveChangesAsync();
+                await _militaryRepository.DeleteMilitaryAsync(military);
             }
             return Unit.Value;
         }

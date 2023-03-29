@@ -1,4 +1,5 @@
 ﻿using EscalaServ.Application.ViewModels;
+using EscalaServ.Core.Repositories;
 using EscalaServ.Infrastructure.Persistence;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -12,17 +13,17 @@ namespace EscalaServ.Application.Queries.GetAllUser
 {
     public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, List<UserViewModel>>
     {
-        private readonly EscalaServDbContext _dbContext;
-        public GetAllUsersQueryHandler(EscalaServDbContext dbContext)
+        private readonly IUserRepository _userRepository;
+        public GetAllUsersQueryHandler(IUserRepository userRepository)
         {
-            _dbContext = dbContext;
+            _userRepository = userRepository;
         }
         public async Task<List<UserViewModel>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
         {
-            var user = _dbContext.User;
-            var userViewModel = await user
+            var user = await _userRepository.GetAllAsync();
+            var userViewModel = user
                 .Select(u => new UserViewModel(u.WarName, u.Graduation))
-                .ToListAsync();
+                .ToList();
 
             return userViewModel;
         }

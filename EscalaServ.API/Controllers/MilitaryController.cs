@@ -97,7 +97,7 @@ namespace EscalaServ.API.Controllers
 
         //api/militaries/"id"
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] UpdateMilitaryCommand command)
+        public async Task<IActionResult> Put([FromBody] UpdateMilitaryCommand command)
         {
             if (command.Nip.Length > 8)
             {
