@@ -1,4 +1,5 @@
 ﻿using EscalaServ.Core.Entities;
+using EscalaServ.Core.Repositories;
 using EscalaServ.Infrastructure.Persistence;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -12,19 +13,19 @@ namespace EscalaServ.Application.Commands.CreateTrade
 {
     public class CreateTradeCommandHandler : IRequestHandler<CreateTradeCommand, int>
     {
-        private readonly EscalaServDbContext _dbContext;
+        private readonly IMilitaryRepository _militaryRepository;
 
-        public CreateTradeCommandHandler(EscalaServDbContext dbContext)
+        public CreateTradeCommandHandler(IMilitaryRepository militaryRepository)
         {
-            _dbContext = dbContext;
+            _militaryRepository = militaryRepository;
         }
         public async Task<int> Handle(CreateTradeCommand request, CancellationToken cancellationToken)
         {
-            var trade = new TradeRequest(request.UserId, request.OutService, request.InService, request.MilitaryId, request.Motive);
-            await _dbContext.TradeRequest.AddAsync(trade);
-            await _dbContext.SaveChangesAsync();
+            var tradeRequest = new TradeRequest(request.UserId, request.OutService, request.InService, request.MilitaryId, request.Motive);
+            
+            await _militaryRepository.AddTradeAsync(tradeRequest);
 
-            return trade.Id;
+            return tradeRequest.Id;
         }
     }
 }

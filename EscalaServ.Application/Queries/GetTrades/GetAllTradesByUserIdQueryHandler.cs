@@ -1,5 +1,6 @@
 ﻿using EscalaServ.Application.ViewModels;
 using EscalaServ.Core.Entities;
+using EscalaServ.Core.Repositories;
 using EscalaServ.Infrastructure.Persistence;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -13,17 +14,22 @@ namespace EscalaServ.Application.Queries.GetTrades
 {
     public class GetAllTradesByUserIdQueryHandler : IRequestHandler<GetAllTradesByUserIdQuery, List<TradeRequestViewModel>>
     {
-        private readonly EscalaServDbContext _dbContext;
-        public GetAllTradesByUserIdQueryHandler(EscalaServDbContext dbContext)
+        private readonly IMilitaryRepository _militaryRepository;
+        public GetAllTradesByUserIdQueryHandler(IMilitaryRepository militaryRepository)
         {
-            _dbContext = dbContext;
+            _militaryRepository = militaryRepository;
         }
         public async Task<List<TradeRequestViewModel>> Handle(GetAllTradesByUserIdQuery request, CancellationToken cancellationToken)
         {
-            var tradeViewModel = await _dbContext.TradeRequest
-                .Where(p => p.UserId == request.Id)
-                .Select(p => new TradeRequestViewModel(p.UserId, p.InService, p.OutService, p.Motive))
-                .ToListAsync();
+            var trade = await _militaryRepository.GetAllTradesByIdAsync(request.Id, request.Query);
+
+            var tradeViewModel = trade
+                .Select(p => new TradeRequestViewModel(
+                    p.UserId,
+                    p.OutService,
+                    p.InService,
+                    p.Motive))
+                .ToList();
 
             var CountTrade = tradeViewModel.Count;
 

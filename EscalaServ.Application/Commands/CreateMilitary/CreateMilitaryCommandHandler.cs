@@ -1,4 +1,5 @@
 ﻿using EscalaServ.Core.Entities;
+using EscalaServ.Core.Repositories;
 using EscalaServ.Infrastructure.Persistence;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -12,17 +13,17 @@ namespace EscalaServ.Application.Commands.CreateMilitary
 {
     public class CreateMilitaryCommandHandler : IRequestHandler<CreateMilitaryCommand, int>
     {
-        private readonly EscalaServDbContext _dbContext;
+        private readonly IMilitaryRepository _militaryRepository;
         
-        public CreateMilitaryCommandHandler(EscalaServDbContext dbContext)
+        public CreateMilitaryCommandHandler(IMilitaryRepository militaryRepository)
         {
-            _dbContext = dbContext;
+            _militaryRepository = militaryRepository;
         }
         public async Task<int> Handle(CreateMilitaryCommand request, CancellationToken cancellationToken)
         {
             var military = new Military(request.Nip, request.WarName, request.Graduation, request.Division, request.Rank);
-            await _dbContext.Military.AddAsync(military);
-            await _dbContext.SaveChangesAsync();
+
+            await _militaryRepository.AddMilitaryAsync(military);
 
             return military.Id;
         }

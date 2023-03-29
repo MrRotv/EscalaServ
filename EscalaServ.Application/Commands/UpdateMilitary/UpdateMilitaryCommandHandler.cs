@@ -1,4 +1,5 @@
-﻿using EscalaServ.Infrastructure.Persistence;
+﻿using EscalaServ.Core.Repositories;
+using EscalaServ.Infrastructure.Persistence;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -11,18 +12,20 @@ namespace EscalaServ.Application.Commands.UpdateMilitary
 {
     public class UpdateMilitaryCommandHandler : IRequestHandler<UpdateMilitaryCommand, Unit>
     {
-        private readonly EscalaServDbContext _dbContext;
+        private readonly IMilitaryRepository _militaryRepository;
 
-        public UpdateMilitaryCommandHandler(EscalaServDbContext dbContext)
+        public UpdateMilitaryCommandHandler(IMilitaryRepository militaryRepository)
         {
-            _dbContext = dbContext;
+            _militaryRepository = militaryRepository;
         }
         public async Task<Unit> Handle(UpdateMilitaryCommand request, CancellationToken cancellationToken)
         {
-            var update = await _dbContext.Military.SingleOrDefaultAsync(x => x.Id == request.Id);
+            var update = await _militaryRepository.GetByIdAsync(request.Id);
 
             update.Update(request.Nip, request.WarName, request.Graduation, request.Division, request.Rank);
-            await _dbContext.SaveChangesAsync();
+
+            await _militaryRepository.UpdateMilitaryAsync(update);
+
             return Unit.Value;
         }
     }
