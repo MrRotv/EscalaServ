@@ -2,12 +2,9 @@
 using EscalaServ.Application.Commands.CreateTrade;
 using EscalaServ.Application.Commands.DeleteMilitary;
 using EscalaServ.Application.Commands.UpdateMilitary;
-using EscalaServ.Application.InputModels;
 using EscalaServ.Application.Queries.GetAllMilitary;
 using EscalaServ.Application.Queries.GetMilitaryById;
 using EscalaServ.Application.Queries.GetTrades;
-using EscalaServ.Application.Services.Implemetations;
-using EscalaServ.Application.Services.Interfaces;
 using EscalaServ.Core.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -18,11 +15,9 @@ namespace EscalaServ.API.Controllers
     [Route("api/militaries")]
     public class MilitaryController : ControllerBase
     {
-        private readonly IMilitaryService _militaryService;
         private readonly IMediator _mediator;
-        public MilitaryController(IMilitaryService militaryService, IMediator mediator)
+        public MilitaryController(IMediator mediator)
         {
-            _militaryService = militaryService;
             _mediator = mediator;
         }
         //api/militaries?query="parâmetro de busca"
@@ -97,9 +92,9 @@ namespace EscalaServ.API.Controllers
 
         //api/militaries/"id"
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put([FromBody] UpdateMilitaryCommand command)
+        public async Task<IActionResult> Put([FromBody] UpdateMilitaryCommand command, int id)
         {
-            if (command.Nip.Length > 8)
+            if (command.Id != id || command.Nip.Length > 8)
             {
                 return BadRequest();
             }

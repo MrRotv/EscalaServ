@@ -1,6 +1,4 @@
 using EscalaServ.Application.Commands.CreateMilitary;
-using EscalaServ.Application.Services.Implemetations;
-using EscalaServ.Application.Services.Interfaces;
 using EscalaServ.Core.Repositories;
 using EscalaServ.Infrastructure.Persistence;
 using EscalaServ.Infrastructure.Persistence.Repositories;
@@ -18,9 +16,6 @@ builder.Services.AddDbContext<EscalaServDbContext>(options => options.UseSqlServ
 
 builder.Services.AddScoped<IMilitaryRepository, MilitaryRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-
-builder.Services.AddScoped<IMilitaryService, MilitaryService>();
-builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddControllers();
 builder.Services.AddMediatR(typeof(CreateMilitaryCommand));

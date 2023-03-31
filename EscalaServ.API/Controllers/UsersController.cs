@@ -1,9 +1,7 @@
 ﻿using EscalaServ.Application.Commands.CreateUser;
 using EscalaServ.Application.Commands.UpdateUser;
-using EscalaServ.Application.InputModels;
 using EscalaServ.Application.Queries.GetAllUser;
 using EscalaServ.Application.Queries.GetUserById;
-using EscalaServ.Application.Services.Interfaces;
 using EscalaServ.Core.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -13,11 +11,11 @@ namespace EscalaServ.API.Controllers
     [Route("api/users")]
     public class UsersController : ControllerBase
     {
-        private readonly IUserService _userInterface;
+
         private readonly IMediator _mediator;
-        public UsersController(IUserService userInterface, IMediator mediator)
+        public UsersController(IMediator mediator)
         {
-            _userInterface = userInterface;
+
             _mediator = mediator;
         }
 
