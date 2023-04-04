@@ -17,8 +17,4 @@
     <ProjectReference Include="..\EscalaServ.Infrastructure\EscalaServ.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Validators\" />
-  </ItemGroup>
-
 </Project>

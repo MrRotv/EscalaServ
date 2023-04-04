@@ -65,10 +65,6 @@ namespace EscalaServ.API.Controllers
         [HttpPost]
         public async Task <IActionResult> Post([FromBody] CreateMilitaryCommand command)
         {
-            if (command.Graduation.Length > 20)
-            {
-                return BadRequest();
-            }
             //Possíveis retornos:
 
             //BadRequest, caso algum requisito dos parâmetros não seja atendido
@@ -85,6 +81,7 @@ namespace EscalaServ.API.Controllers
         [HttpPost("{id}/trades")]
         public async Task<IActionResult> Post([FromBody] CreateTradeCommand command)
         {
+
             await _mediator.Send(command);
 
             return NoContent();
@@ -94,7 +91,7 @@ namespace EscalaServ.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Put([FromBody] UpdateMilitaryCommand command, int id)
         {
-            if (command.Id != id || command.Nip.Length > 8)
+            if (command.Id != id)
             {
                 return BadRequest();
             }

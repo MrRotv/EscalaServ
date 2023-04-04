@@ -1,7 +1,10 @@
+using EscalaServ.API.Filters;
 using EscalaServ.Application.Commands.CreateMilitary;
+using EscalaServ.Application.Validators;
 using EscalaServ.Core.Repositories;
 using EscalaServ.Infrastructure.Persistence;
 using EscalaServ.Infrastructure.Persistence.Repositories;
+using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +20,8 @@ builder.Services.AddDbContext<EscalaServDbContext>(options => options.UseSqlServ
 builder.Services.AddScoped<IMilitaryRepository, MilitaryRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(option => option.Filters.Add(typeof (ValidationFilter)))
+    .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateMilitaryCommandValidator>());
 builder.Services.AddMediatR(typeof(CreateMilitaryCommand));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
