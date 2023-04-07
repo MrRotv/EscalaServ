@@ -1,9 +1,11 @@
 ﻿using EscalaServ.Application.Commands.CreateUser;
+using EscalaServ.Application.Commands.LoginUser;
 using EscalaServ.Application.Commands.UpdateUser;
 using EscalaServ.Application.Queries.GetAllUser;
 using EscalaServ.Application.Queries.GetUserById;
 using EscalaServ.Core.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EscalaServ.API.Controllers
@@ -21,6 +23,7 @@ namespace EscalaServ.API.Controllers
 
         //api/user/query="parâmetro de busca"
         [HttpGet]
+        [Authorize(Roles = "admin, default")]
         public async Task<IActionResult> Get(string query)
         {
             var command = new GetAllUsersQuery(query);
@@ -31,6 +34,7 @@ namespace EscalaServ.API.Controllers
 
         //api/user/"id"
         [HttpGet("{id}")]
+        [Authorize(Roles = "admin, default")]
         public async Task<IActionResult> GetById(int id)
         {
             var command = new GetUserByIdQuery(id);
@@ -44,6 +48,7 @@ namespace EscalaServ.API.Controllers
 
         //api/users
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Post([FromBody] CreateUserCommand command)
         {          
             var id = await _mediator.Send(command);
@@ -51,6 +56,7 @@ namespace EscalaServ.API.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Put([FromBody] UpdateUserCommand command)
         {
             await _mediator.Send(command);
@@ -66,10 +72,15 @@ namespace EscalaServ.API.Controllers
         
 
         //api/users/"id"/login
-        //[HttpPut("{id}/login")]
-        //public IActionResult Login(int id, [FromBody] LoginModel login)
-        //{
-        //    return NoContent();
-        //}
+        [HttpPut("login")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Login([FromBody] LoginUserCommand command)
+        {
+            var loginUserViewModel = await _mediator.Send(command);
+            if (loginUserViewModel == null) return BadRequest();
+
+            return Ok(loginUserViewModel);
+
+        }
     }
 }

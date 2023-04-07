@@ -13,5 +13,6 @@ namespace EscalaServ.Application.Commands.CreateUser
         public string WarName { get;  set; }
         public string Graduation { get;  set; }
         public string Password { get;  set; }
+        public string Role { get; set; }
     }
 }

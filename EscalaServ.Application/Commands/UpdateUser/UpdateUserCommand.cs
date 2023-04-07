@@ -13,5 +13,7 @@ namespace EscalaServ.Application.Commands.UpdateUser
         public string Nip { get;  set; }
         public string WarName { get;  set; }
         public string Graduation { get;  set; }
+        public string Password { get; set; }
+        public string Role { get; set; }
     }
 }

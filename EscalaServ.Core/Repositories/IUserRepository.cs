@@ -13,6 +13,8 @@ namespace EscalaServ.Core.Repositories
         Task<User> GetByIdAsync(int id);
         Task AddUserAsync(User user);
         Task UpdateUserAsync(User user);
+
+        Task<User> GetUserByNipAndPassword(string nip, string passwordHash);
         
     }
 }

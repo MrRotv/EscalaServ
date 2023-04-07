@@ -7,6 +7,7 @@ using EscalaServ.Application.Queries.GetMilitaryById;
 using EscalaServ.Application.Queries.GetTrades;
 using EscalaServ.Core.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -22,6 +23,7 @@ namespace EscalaServ.API.Controllers
         }
         //api/militaries?query="parâmetro de busca"
         [HttpGet]
+        [Authorize(Roles = "admin, default")]
         public async Task<IActionResult> Get(string query)
         {
             var command = new GetAllMilitaryQuery(query);
@@ -32,6 +34,7 @@ namespace EscalaServ.API.Controllers
 
         //api/militaries/"id"
         [HttpGet("{id}")]
+        [Authorize(Roles = "admin, default")]
         public async Task<IActionResult> GetById(int id)
         {
             var command = new GetMilitaryByIdQuery(id);
@@ -46,6 +49,7 @@ namespace EscalaServ.API.Controllers
         }
 
         [HttpGet("{id}/trades")]
+        [Authorize(Roles = "admin, default")]
         public async Task<IActionResult> GetAll(int id, string query)
         {
             var command = new GetAllTradesByUserIdQuery(id,query);
@@ -63,6 +67,7 @@ namespace EscalaServ.API.Controllers
 
         //api/militaries/
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task <IActionResult> Post([FromBody] CreateMilitaryCommand command)
         {
             //Possíveis retornos:
@@ -79,6 +84,7 @@ namespace EscalaServ.API.Controllers
 
         //api/militaries/"id"/trades
         [HttpPost("{id}/trades")]
+        [Authorize(Roles = "admin, default")]
         public async Task<IActionResult> Post([FromBody] CreateTradeCommand command)
         {
 
@@ -89,6 +95,7 @@ namespace EscalaServ.API.Controllers
 
         //api/militaries/"id"
         [HttpPut("{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Put([FromBody] UpdateMilitaryCommand command, int id)
         {
             if (command.Id != id)
@@ -102,6 +109,7 @@ namespace EscalaServ.API.Controllers
 
         //api/militaries/"id"
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var command = new DeleteMilitaryCommand(id);
