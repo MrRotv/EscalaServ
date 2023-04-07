@@ -40,5 +40,11 @@ namespace EscalaServ.Infrastructure.Persistence.Repositories
         {
             await _dbContext.SaveChangesAsync();
         }
+
+        public async Task<User> GetUserByNipAndPassword(string nip, string passwordHash)
+        {
+            return await _dbContext.User
+                .SingleOrDefaultAsync(i => i.Nip == nip && i.Password == passwordHash);  
+        }
     }
 }

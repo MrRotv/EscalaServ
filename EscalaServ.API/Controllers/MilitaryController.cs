@@ -2,14 +2,12 @@
 using EscalaServ.Application.Commands.CreateTrade;
 using EscalaServ.Application.Commands.DeleteMilitary;
 using EscalaServ.Application.Commands.UpdateMilitary;
-using EscalaServ.Application.InputModels;
 using EscalaServ.Application.Queries.GetAllMilitary;
 using EscalaServ.Application.Queries.GetMilitaryById;
 using EscalaServ.Application.Queries.GetTrades;
-using EscalaServ.Application.Services.Implemetations;
-using EscalaServ.Application.Services.Interfaces;
 using EscalaServ.Core.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -18,15 +16,14 @@ namespace EscalaServ.API.Controllers
     [Route("api/militaries")]
     public class MilitaryController : ControllerBase
     {
-        private readonly IMilitaryService _militaryService;
         private readonly IMediator _mediator;
-        public MilitaryController(IMilitaryService militaryService, IMediator mediator)
+        public MilitaryController(IMediator mediator)
         {
-            _militaryService = militaryService;
             _mediator = mediator;
         }
         //api/militaries?query="parâmetro de busca"
         [HttpGet]
+        [Authorize(Roles = "admin, default")]
         public async Task<IActionResult> Get(string query)
         {
             var command = new GetAllMilitaryQuery(query);
@@ -37,6 +34,7 @@ namespace EscalaServ.API.Controllers
 
         //api/militaries/"id"
         [HttpGet("{id}")]
+        [Authorize(Roles = "admin, default")]
         public async Task<IActionResult> GetById(int id)
         {
             var command = new GetMilitaryByIdQuery(id);
@@ -51,6 +49,7 @@ namespace EscalaServ.API.Controllers
         }
 
         [HttpGet("{id}/trades")]
+        [Authorize(Roles = "admin, default")]
         public async Task<IActionResult> GetAll(int id, string query)
         {
             var command = new GetAllTradesByUserIdQuery(id,query);
@@ -68,12 +67,9 @@ namespace EscalaServ.API.Controllers
 
         //api/militaries/
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task <IActionResult> Post([FromBody] CreateMilitaryCommand command)
         {
-            if (command.Graduation.Length > 20)
-            {
-                return BadRequest();
-            }
             //Possíveis retornos:
 
             //BadRequest, caso algum requisito dos parâmetros não seja atendido
@@ -88,8 +84,10 @@ namespace EscalaServ.API.Controllers
 
         //api/militaries/"id"/trades
         [HttpPost("{id}/trades")]
+        [Authorize(Roles = "admin, default")]
         public async Task<IActionResult> Post([FromBody] CreateTradeCommand command)
         {
+
             await _mediator.Send(command);
 
             return NoContent();
@@ -97,9 +95,10 @@ namespace EscalaServ.API.Controllers
 
         //api/militaries/"id"
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put([FromBody] UpdateMilitaryCommand command)
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> Put([FromBody] UpdateMilitaryCommand command, int id)
         {
-            if (command.Nip.Length > 8)
+            if (command.Id != id)
             {
                 return BadRequest();
             }
@@ -110,6 +109,7 @@ namespace EscalaServ.API.Controllers
 
         //api/militaries/"id"
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var command = new DeleteMilitaryCommand(id);

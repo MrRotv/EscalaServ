@@ -10,7 +10,11 @@ namespace EscalaServ.Application.Commands.UpdateMilitary
 {
     public class UpdateMilitaryCommand : IRequest<Unit>
     {
-        public int Id { get; set; }
+        public UpdateMilitaryCommand(int id)
+        {
+            Id = id;
+        }
+        public int Id { get; private set; }
         public string Nip { get; set; }
         public string WarName { get; set; }
         public string Graduation { get; set; }
